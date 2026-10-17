@@ -7,6 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d0d0d">
+    <link rel="manifest" href="manifest.json">
     
     <style>
         :root {
@@ -369,6 +370,26 @@
             background: rgba(212, 175, 55, 0.1);
         }
 
+        .returning-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: underline;
+            text-decoration-color: rgba(212, 175, 55, 0.4);
+            text-underline-offset: 4px;
+            margin-top: 15px;
+            transition: color 0.2s ease;
+        }
+        
+        .returning-btn:hover {
+            color: var(--gold-light);
+        }
+
         /* Footer / Legal Area */
         .site-footer {
             width: 100%;
@@ -684,6 +705,7 @@
             line-height: 1.5;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
             padding-top: 16px;
+            text-align: center; /* Center alignment applied */
         }
 
         .receipt-action-btn {
@@ -802,11 +824,11 @@
             </div>
         </div>
 
-        <!-- Pilot Box Pricing -->
+        <!-- Pilot Box Pricing Updated -->
         <div class="pilot-box">
             <div>
-                <div class="pilot-label-top" data-en="Pilot Launch Rate" data-fr="Tarif de Lancement">Pilot Launch Rate</div>
-                <div class="pilot-label-sub" data-en="Fast grooming & refresh" data-fr="Coiffure et rafraîchissement">Fast grooming & refresh</div>
+                <div class="pilot-label-top" data-en="Priority Flat Rate" data-fr="Tarif Fixe Prioritaire">Priority Flat Rate</div>
+                <div class="pilot-label-sub" data-en="Complete readiness. Zero menus." data-fr="Préparation complète. Zéro menu.">Complete readiness. Zero menus.</div>
             </div>
             <div class="pilot-price-area">
                 <div class="pilot-price" id="displayPrice">$39.99 CAD</div>
@@ -824,7 +846,6 @@
         <!-- CALL TO ACTION AREA -->
         <div class="cta-container">
             <div>
-                <!-- Instantly opens form, Intercept is GONE for Lean MVP -->
                 <button class="ready-circle-btn" onclick="openModal('verifyModal')">
                     <span class="ready-line-1">READY</span>
                     <span class="ready-line-2">NOW™</span>
@@ -876,7 +897,7 @@
                 <input type="hidden" name="dispatch_channel" value="SMS / WhatsApp Priority Ready">
                 <input type="hidden" name="requested_specialist" value="Any Available">
                 
-                <!-- WELCOME BACK RESET LINK (Hidden by default) -->
+                <!-- WELCOME BACK RESET LINK -->
                 <button type="button" class="reset-user-link" onclick="resetUser()" data-en="Not you? Reset details" data-fr="Pas vous ? Réinitialiser">Not you? Reset details</button>
 
                 <input type="text" class="modal-input" name="client_name" id="nameInputNow" required placeholder="First Name" data-en-placeholder="First Name" data-fr-placeholder="Prénom">
@@ -906,7 +927,7 @@
                 <input type="hidden" name="dispatch_channel" value="Scheduled Request">
                 <input type="hidden" name="requested_specialist" value="Any Available">
                 
-                <!-- WELCOME BACK RESET LINK (Hidden by default) -->
+                <!-- WELCOME BACK RESET LINK -->
                 <button type="button" class="reset-user-link" onclick="resetUser()" data-en="Not you? Reset details" data-fr="Pas vous ? Réinitialiser">Not you? Reset details</button>
 
                 <input type="text" class="modal-input" name="client_name" required placeholder="First Name" data-en-placeholder="First Name" data-fr-placeholder="Prénom">
@@ -986,8 +1007,9 @@
                 </div>
             </div>
 
-            <div class="receipt-footer-desc" id="receiptFooterDesc" data-en="Your concierge is coordinating with our network. You pay directly at the studio." data-fr="Votre concierge coordonne avec notre réseau. Vous payez directement au studio.">
-                Your concierge is coordinating with our network. You pay directly at the studio.
+            <!-- Updated line break for receipt text -->
+            <div class="receipt-footer-desc" id="receiptFooterDesc" data-en="Your concierge is coordinating with our network.<br>You pay directly at the studio." data-fr="Votre concierge coordonne avec notre réseau.<br>Vous payez directement au studio.">
+                Your concierge is coordinating with our network.<br>You pay directly at the studio.
             </div>
 
             <a href="https://wa.me/14387251010?text=Hi%20SPUR%20Concierge,%20I%20am%20checking%20on%20my%20dispatch." class="receipt-action-btn" target="_blank">
@@ -1057,6 +1079,7 @@
             document.querySelectorAll('[data-en]').forEach(el => {
                 if (el.id === 'brandPhilosophyText' && localStorage.getItem('spur_user_name')) return;
                 
+                // Using innerHTML instead of innerText to ensure <br> tags process correctly
                 if (lang === 'fr' && el.hasAttribute('data-fr')) {
                     el.innerHTML = el.getAttribute('data-fr');
                 } else if (lang === 'en' && el.hasAttribute('data-en')) {
@@ -1076,7 +1099,7 @@
             const philText = document.getElementById('brandPhilosophyText');
             if (savedName && philText) {
                 const firstName = savedName.split(' ')[0];
-                philText.innerText = lang === 'fr' ? "Bon retour, " + firstName + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + firstName + ". We're ready when you are.";
+                philText.innerHTML = lang === 'fr' ? "Bon retour, " + firstName + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + firstName + ". We're ready when you are.";
             }
 
             localStorage.setItem('spur_lang', lang);
@@ -1106,7 +1129,7 @@
                 
                 if(dynamicHeader) {
                     const firstName = savedName.split(' ')[0];
-                    dynamicHeader.innerText = lang === 'fr' ? "Bon retour, " + firstName : "Welcome back, " + firstName;
+                    dynamicHeader.innerHTML = lang === 'fr' ? "Bon retour, " + firstName : "Welcome back, " + firstName;
                 }
             } else {
                 nameInputs.forEach(i => { i.value = ''; i.style.display = 'block'; i.setAttribute('required', 'true'); });
@@ -1115,9 +1138,9 @@
                 
                 if(dynamicHeader) {
                     if (lang === 'fr' && dynamicHeader.hasAttribute('data-fr')) {
-                        dynamicHeader.innerText = dynamicHeader.getAttribute('data-fr');
+                        dynamicHeader.innerHTML = dynamicHeader.getAttribute('data-fr');
                     } else if (dynamicHeader.hasAttribute('data-en')) {
-                        dynamicHeader.innerText = dynamicHeader.getAttribute('data-en');
+                        dynamicHeader.innerHTML = dynamicHeader.getAttribute('data-en');
                     }
                 }
             }
@@ -1132,7 +1155,7 @@
             const lang = localStorage.getItem('spur_lang') || 'en';
             const philText = document.getElementById('brandPhilosophyText');
             if(philText) {
-                philText.innerText = lang === 'fr' ? philText.getAttribute('data-fr') : philText.getAttribute('data-en');
+                philText.innerHTML = lang === 'fr' ? philText.getAttribute('data-fr') : philText.getAttribute('data-en');
             }
             
             document.querySelectorAll('.modal-overlay').forEach(m => {
@@ -1226,7 +1249,7 @@
                 const firstName = nameInput.value.trim().split(' ')[0];
                 const philText = document.getElementById('brandPhilosophyText');
                 if (philText) {
-                    philText.innerText = lang === 'fr' ? "Bon retour, " + firstName + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + firstName + ". We're ready when you are.";
+                    philText.innerHTML = lang === 'fr' ? "Bon retour, " + firstName + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + firstName + ". We're ready when you are.";
                 }
             } else {
                 alert("Please enter a valid 10-digit mobile number.");
