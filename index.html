@@ -228,7 +228,7 @@
             font-weight: 700;
         }
 
-        /* CALL TO ACTION AREA (LEAN SPURREADY FLOW) */
+        /* CALL TO ACTION AREA */
         .cta-container {
             display: flex;
             flex-direction: column;
@@ -392,8 +392,6 @@
 
         select.modal-input { text-align-last: center; }
         select.modal-input option { background: #141414; color: #ffffff; }
-        select.modal-input option.opt-silver { color: var(--silver); }
-        select.modal-input option.opt-gold { color: var(--gold); font-weight: bold; }
         
         .modal-input:focus { border-color: var(--gold); }
 
@@ -521,7 +519,7 @@
             </div>
         </div>
 
-        <!-- Inline Pricing & Lean Call To Action Area (SPURREADY FLOW: Direct to Form, with Optional Intercept for Existing Specialist) -->
+        <!-- Inline Pricing & Call To Action Area (SPURREADY FLOW) -->
         <div class="cta-container">
             <div class="inline-pricing">
                 <span id="displayPrice">$49.99 CAD</span> Priority Flat Rate<br>
@@ -578,7 +576,7 @@
         </div>
     </div>
 
-    <!-- SPECIALIST INTERCEPT MODAL (ONLY SHOWN IF EXISTING SPECIALIST EXISTS) -->
+    <!-- SPECIALIST INTERCEPT MODAL (SHOWN ONLY IF EXISTING SPECIALIST EXISTS) -->
     <div id="interceptModal" class="modal-overlay">
         <div class="modal-card">
             <h3>Securing Your Chair</h3>
@@ -592,7 +590,7 @@
         </div>
     </div>
 
-    <!-- READY NOW MODAL -->
+    <!-- READY NOW MODAL (NO OCCASION DROPDOWN - LEAN FLOW) -->
     <div id="verifyModal" class="modal-overlay">
         <div class="modal-card">
             <h3 class="dynamic-header">Get Ready Now</h3>
@@ -602,18 +600,10 @@
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="hidden" name="dispatch_channel" value="Priority Ready">
                 <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Fastest Available">
-
-                <select class="modal-input" name="service_context">
-                    <option value="" disabled selected data-en="What's the occasion? (Optional)" data-fr="Quelle est l'occasion ? (Optionnel)">What's the occasion? (Optional)</option>
-                    <option value="Just for You" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — The Occasion is Me" data-fr="JUSTE POUR VOUS™ — L'occasion, c'est moi">JUST FOR YOU™ — The Occasion is Me</option>
-                    <option value="Professional" class="opt-gold" style="color: var(--gold);" data-en="PROFESSIONAL — Meeting · Interview · Presentation" data-fr="PROFESSIONNEL — Réunion · Entretien · Présentation">PROFESSIONAL — Meeting · Interview · Presentation</option>
-                    <option value="Social" class="opt-gold" style="color: var(--gold);" data-en="SOCIAL — Date · Wedding · Night Out · Event" data-fr="SOCIAL — Rencontre · Mariage · Sortie · Événement">SOCIAL — Date · Wedding · Night Out · Event</option>
-                    <option value="Life" class="opt-gold" style="color: var(--gold);" data-en="LIFE — Travel · Celebration · Personal Milestone" data-fr="VIE — Voyage · Célébration · Étape personnelle">LIFE — Travel · Celebration · Personal Milestone</option>
-                </select>
                 
                 <div id="inputFieldsWrapper">
-                    <input type="text" class="modal-input" name="client_name" id="nameInputNow" placeholder="First Name">
-                    <input type="tel" class="modal-input" name="client_phone" id="phoneInputNow" placeholder="10 Digit Mobile" pattern="[0-9]{10}">
+                    <input type="text" class="modal-input" name="client_name" id="nameInputNow" placeholder="First Name" required>
+                    <input type="tel" class="modal-input" name="client_phone" id="phoneInputNow" placeholder="10 Digit Mobile" pattern="[0-9]{10}" required>
                 </div>
 
                 <button type="submit" class="modal-capsule-btn" id="nowSubmitBtn">SEND REQUEST</button>
@@ -624,7 +614,7 @@
         </div>
     </div>
 
-    <!-- READY LATER MODAL -->
+    <!-- READY LATER MODAL (NO OCCASION DROPDOWN - HOURLY SLOTS) -->
     <div id="laterModal" class="modal-overlay">
         <div class="modal-card">
             <h3 class="dynamic-header">Plan Ahead</h3>
@@ -634,17 +624,9 @@
                 <input type="hidden" name="dispatch_channel" value="Scheduled Request">
                 <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Fastest Available">
                 
-                <select class="modal-input" name="service_context">
-                    <option value="" disabled selected data-en="What's the occasion? (Optional)" data-fr="Quelle est l'occasion ? (Optionnel)">What's the occasion? (Optional)</option>
-                    <option value="Just for You" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — The Occasion is Me" data-fr="JUSTE POUR VOUS™ — L'occasion, c'est moi">JUST FOR YOU™ — The Occasion is Me</option>
-                    <option value="Professional" class="opt-gold" style="color: var(--gold);" data-en="PROFESSIONAL — Meeting · Interview · Presentation" data-fr="PROFESSIONNEL — Réunion · Entretien · Présentation">PROFESSIONAL — Meeting · Interview · Presentation</option>
-                    <option value="Social" class="opt-gold" style="color: var(--gold);" data-en="SOCIAL — Date · Wedding · Night Out · Event" data-fr="SOCIAL — Rencontre · Mariage · Sortie · Événement">SOCIAL — Date · Wedding · Night Out · Event</option>
-                    <option value="Life" class="opt-gold" style="color: var(--gold);" data-en="LIFE — Travel · Celebration · Personal Milestone" data-fr="VIE — Voyage · Célébration · Étape personnelle">LIFE — Travel · Celebration · Personal Milestone</option>
-                </select>
-                
                 <div id="inputFieldsWrapperLater">
-                    <input type="text" class="modal-input" name="client_name" placeholder="First Name">
-                    <input type="tel" class="modal-input" name="client_phone" placeholder="10 Digit Mobile" pattern="[0-9]{10}">
+                    <input type="text" class="modal-input" name="client_name" placeholder="First Name" required>
+                    <input type="tel" class="modal-input" name="client_phone" placeholder="10 Digit Mobile" pattern="[0-9]{10}" required>
                 </div>
 
                 <input type="date" class="modal-input" name="requested_date" required>
@@ -847,12 +829,12 @@
             currentInterceptType = type;
             const savedSpecialist = localStorage.getItem('last_specialist');
 
-            // ONLY show in-between page if an existing specialist is remembered
+            // ONLY show the in-between page if an existing specialist is remembered
             if (savedSpecialist && savedSpecialist !== 'Fastest Available') {
                 document.getElementById('recognizedSpecialistText').innerText = `Book with ${savedSpecialist} again?`;
                 document.getElementById('interceptModal').style.display = 'flex';
             } else {
-                // Otherwise, go straight to booking form
+                // Otherwise, go straight to personal details form
                 safeOpenModal(type === 'now' ? 'verifyModal' : 'laterModal');
             }
         }
@@ -967,14 +949,12 @@
             if (!phone) phone = '6040000000';
 
             const city = form.querySelector('.formCityField').value;
-            const contextRaw = form.querySelector('select[name="service_context"]').value;
-            const context = contextRaw ? contextRaw.split('—')[0].trim() : 'Standard Readiness';
             const specialist = form.querySelector('input[name="requested_specialist"]')?.value || 'Fastest Available';
 
             localStorage.setItem('last_specialist', specialist);
             await syncClientToSupabase(name, phone, specialist);
 
-            const waMessage = `Hello SPUR — I would like to request a visit.\n\nType: ${type.toUpperCase()}\nCity: ${city}\nName: ${name}\nMobile: ${phone}\nContext: ${context}\nSpecialist: ${specialist}\n\nPlease coordinate verified availability.`;
+            const waMessage = `Hello SPUR — I would like to request a visit.\n\nType: ${type.toUpperCase()}\nCity: ${city}\nName: ${name}\nMobile: ${phone}\nSpecialist: ${specialist}\n\nPlease coordinate verified availability.`;
             const encodedWaUrl = `https://wa.me/${SPUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
             document.getElementById('whatsappAutoBtn').href = encodedWaUrl;
 
