@@ -524,7 +524,7 @@
         <!-- Inline Pricing & Call To Action Area -->
         <div class="cta-container">
             <div class="inline-pricing">
-                <span id="displayPrice">$49.99 CAD</span> Priority Flat Rate<br>
+                <span id="displayPrice">$49.99 CAD</span> <span data-en="Priority Flat Rate" data-fr="Tarif Fixe Prioritaire">Priority Flat Rate</span><br>
                 <button type="button" onclick="safeOpenModal('codeModal')" style="background:none; border:none; color:var(--text-muted); font-size:10px; font-weight:700; text-decoration:underline; cursor:pointer; margin-top:8px;" data-en="HAVE SPURTAN CODE?" data-fr="AVEZ-UN CODE SPURTAN ?">HAVE SPURTAN CODE?</button>
             </div>
 
@@ -592,7 +592,7 @@
         </div>
     </div>
 
-    <!-- READY NOW MODAL (NO OCCASION DROPDOWN - LEAN) -->
+    <!-- READY NOW MODAL -->
     <div id="verifyModal" class="modal-overlay">
         <div class="modal-card">
             <h3 class="dynamic-header" data-en="Get Ready Now" data-fr="Préparez-vous Maintenant">Get Ready Now</h3>
@@ -616,7 +616,7 @@
         </div>
     </div>
 
-    <!-- READY LATER MODAL (NO OCCASION DROPDOWN - HOURLY SLOTS) -->
+    <!-- READY LATER MODAL -->
     <div id="laterModal" class="modal-overlay">
         <div class="modal-card">
             <h3 class="dynamic-header" data-en="Plan Ahead" data-fr="Planifier à L'avance">Plan Ahead</h3>
@@ -679,8 +679,8 @@
             <h3 data-en="Founding Spurtan Access" data-fr="Accès Spurtan Fondateur">Founding Spurtan Access</h3>
             <p data-en="Own the hour before. Join the private pilot and lock in preferred rates." data-fr="Maîtrisez votre heure. Rejoignez le pilote privé et bloquez les tarifs préférentiels.">Own the hour before. Join the private pilot and lock in preferred rates.</p>
             <div class="perks-mini-box" style="text-align: left;">
-                • <strong data-en="$39.99 CAD All-In" data-fr="39,99 $ CAD Tout Inclus">$39.99 CAD All-In</strong> <span data-en="for your first 3 visits (Standard: $49.99)." data-fr="pour vos 3 premières visites (Standard : 49,99 $).">for your first 3 visits (Standard: $49.99).</span><br>
-                • <strong data-en="First Visit Guarantee:" data-fr="Garantie 1ère Visite :">First Visit Guarantee:</strong> <span data-en="Full refund if not completely Ready after your first visit." data-fr="Remboursement intégral si vous n'êtes pas complètement Prêt après votre première visite.">Full refund if not completely Ready after your first visit.</span>
+                • <strong data-en="$39.99 CAD All-In" data-fr="39,99 $ CAD Tout Inclus">$39.99 CAD All-In</strong> <span data-en="for your first 3 visits (Standard: $49.99)." data-fr="pour vos 3 premières visites (Standard : 49,99 $).">for your first 3 visits (Standard: $49.99).[cite: 3]</span><br>
+                • <strong data-en="First Visit Guarantee:" data-fr="Garantie 1ère Visite :">First Visit Guarantee:</strong> <span data-en="Full refund if not completely Ready after your first visit." data-fr="Remboursement intégral si vous n'êtes pas complètement Prêt après votre première visite.">Full refund if not completely Ready after your first visit.[cite: 3]</span>
             </div>
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleSpurtanRegister(event)">
                 <input type="text" class="modal-input" name="client_name" required placeholder="First Name" data-en-placeholder="First Name" data-fr-placeholder="Prénom">
@@ -815,8 +815,9 @@
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
             document.querySelectorAll('[data-en]').forEach(el => {
-                if (el.id === 'brandPhilosophyText' && localStorage.getItem('spur_user_name')) return;
-                el.innerHTML = lang === 'fr' && el.hasAttribute('data-fr') ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+                if (el.hasAttribute('data-fr')) {
+                    el.innerHTML = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+                }
             });
 
             document.querySelectorAll('[data-en-placeholder]').forEach(el => {
