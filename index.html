@@ -9,11 +9,13 @@
     <meta name="theme-color" content="#0d0d0d">
     <link rel="manifest" href="manifest.json">
     
+    <!-- Load Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg-color: #0d0d0d;
             --gold: #d4af37;
-            --gold-light: #f3e5ab;
             --silver: #a0a0a0;
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
@@ -39,7 +41,7 @@
             position: relative;
         }
 
-        /* VIP TOP PILL */
+        /* TOP VIP PILL */
         .vip-top-pill {
             width: 100%;
             max-width: 440px;
@@ -182,7 +184,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex-grow: 1; /* Pushes footer down naturally */
+            flex-grow: 1; 
         }
 
         .hero-section {
@@ -379,12 +381,20 @@
             border: 1px solid var(--border-color); padding: 14px; border-radius: 12px;
             font-size: 15px; text-align: center; letter-spacing: 1px; margin-bottom: 12px; outline: none; appearance: none;
         }
+
+        .modal-input:-webkit-autofill,
+        .modal-input:-webkit-autofill:hover, 
+        .modal-input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #ffffff !important;
+            -webkit-box-shadow: 0 0 0px 1000px #141414 inset !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+
         select.modal-input { text-align-last: center; }
-        
         select.modal-input option { background: #141414; color: #ffffff; }
         select.modal-input option.opt-silver { color: var(--silver); }
         select.modal-input option.opt-gold { color: var(--gold); font-weight: bold; }
-
+        
         .modal-input:focus { border-color: var(--gold); }
 
         .legal-consent-text { font-size: 9px; color: #666; line-height: 1.3; text-align: center; margin-top: 15px; margin-bottom: 5px; }
@@ -393,6 +403,15 @@
             background: var(--gold); color: #0d0d0d; border: none; padding: 14px 24px;
             border-radius: 30px; font-size: 12px; font-weight: 800; cursor: pointer; margin: 10px auto 0 auto; width: 100%; text-transform: uppercase;
         }
+        
+        #codeModal .modal-circle-btn {
+            width: 95px; height: 95px; border-radius: 50%;
+            background: var(--gold) !important; color: #0d0d0d !important;
+            border: none; font-weight: 800; font-size: 10px; cursor: pointer;
+            margin: 10px auto 16px auto; display: flex; justify-content: center;
+            align-items: center; text-align: center; padding: 5px;
+        }
+
         .modal-close { background: none; border: none; color: var(--text-muted); font-size: 12px; cursor: pointer; margin-top: 15px; display: inline-block; }
         .reset-user-link { display: none; background: none; border: none; color: var(--gold); font-size: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: underline; margin: 15px auto 5px auto; width: 100%; }
 
@@ -404,14 +423,6 @@
             border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left; font-size: 12px; color: var(--text-muted); line-height: 1.5;
         }
         .perks-mini-box strong { color: var(--text-main); font-weight: 600; }
-
-        .how-step-item {
-            text-align: left; margin-bottom: 14px; padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .how-step-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .how-step-title { font-size: 13px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
-        .how-step-text { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
 
         /* Success Screen */
         #finalSuccessView { display: none; width: 100%; max-width: 440px; text-align: center; }
@@ -425,6 +436,7 @@
         .success-receipt-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: 24px; padding: 28px 24px; text-align: left; position: relative; overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
         .success-receipt-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gold); }
         .receipt-top-row { display: flex; justify-content: space-between; margin-bottom: 20px; }
@@ -457,7 +469,7 @@
     <div class="main-content" id="mainAppContainer">
         
         <!-- TOP VIP PILL -->
-        <div class="vip-top-pill" onclick="openModal('spurtanModal')">
+        <div class="vip-top-pill" onclick="safeOpenModal('spurtanModal')">
             <div class="vip-pill-left">
                 <span class="vip-star">✦</span>
                 <span data-en="Founding Spurtan Access" data-fr="Accès Spurtan Fondateur">Founding Spurtan Access</span>
@@ -506,24 +518,24 @@
             </div>
         </div>
 
-        <!-- Inline Pricing & Call To Action Area -->
+        <!-- Inline Pricing & Lean Call To Action Area (DIRECTLY OPENS MODAL - SPURREADY FLOW) -->
         <div class="cta-container">
             <div class="inline-pricing">
                 <span id="displayPrice">$49.99 CAD</span> Priority Flat Rate<br>
-                <button type="button" onclick="openModal('codeModal')" style="background:none; border:none; color:var(--text-muted); font-size:10px; font-weight:700; text-decoration:underline; cursor:pointer; margin-top:8px;">HAVE SPURTAN CODE?</button>
+                <button type="button" onclick="safeOpenModal('codeModal')" style="background:none; border:none; color:var(--text-muted); font-size:10px; font-weight:700; text-decoration:underline; cursor:pointer; margin-top:8px;">HAVE SPURTAN CODE?</button>
             </div>
 
             <div>
-                <button class="ready-circle-btn" onclick="openModal('verifyModal')">
+                <button class="ready-circle-btn" onclick="safeOpenModal('verifyModal')">
                     <span class="ready-line-1">READY</span>
                     <span class="ready-line-2">NOW™</span>
                 </button>
-                <div class="cta-footer-note" data-en="A specialist assesses what you need.<br>You just show up." data-fr="Un spécialiste évalue ce dont vous avez besoin.<br>Vous vous présentez, tout simplement.">
-                    A specialist assesses what you need.<br>You just show up.
+                <div class="cta-footer-note" data-en="A SPUR Specialist assesses what you need.<br>You just show up." data-fr="Un spécialiste SPUR évalue ce dont vous avez besoin.<br>Vous vous présentez, tout simplement.">
+                    A SPUR Specialist assesses what you need.<br>You just show up.
                 </div>
             </div>
 
-            <button class="ready-later-btn" onclick="openModal('laterModal')">
+            <button class="ready-later-btn" onclick="safeOpenModal('laterModal')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                     <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -541,43 +553,42 @@
         <div class="site-footer">
             <span data-en="© 2026 SPUR. All rights reserved." data-fr="© 2026 SPUR. Tous droits réservés.">© 2026 SPUR. All rights reserved.</span>
             <br><br>
-            <a onclick="openModal('howItWorksModal')" data-en="How It Works" data-fr="Comment ça marche">How It Works</a> | 
+            <a onclick="safeOpenModal('howItWorksModal')" data-en="How It Works" data-fr="Comment ça marche">How It Works</a> | 
             <a href="terms.html" data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a> | 
             <a href="privacy.html" data-en="Privacy Policy" data-fr="Politique de confidentialité">Privacy Policy</a>
         </div>
         
     </div>
 
-    <!-- HOW IT WORKS MODAL (Binary Refresh / Reset - No Times) -->
+    <!-- HOW IT WORKS MODAL -->
     <div id="howItWorksModal" class="modal-overlay">
         <div class="modal-card">
-            <h3 data-en="How SPUR Works" data-fr="Comment fonctionne SPUR">How SPUR Works</h3>
-            <p data-en="The hour before is yours. Here is the work we do behind the scenes." data-fr="L'heure qui précède est à vous. Voici ce que nous faisons en coulisses.">
-                The hour before is yours. Here is the work we do behind the scenes.
-            </p>
+            <h3>How SPUR Works</h3>
+            <p>The hour before is yours. Here is the work we do behind the scenes.</p>
             <div class="perks-mini-box" style="text-align: left;">
                 <p style="margin-bottom: 8px;"><strong>01. Zero Menus:</strong> You state your life moment. No service lists.</p>
                 <p style="margin-bottom: 8px;"><strong>02. Verified Dispatch:</strong> We coordinate availability through a verified concierge process.</p>
-                <p style="margin-bottom: 8px;"><strong>03. Assess & Approve:</strong> The specialist recommends either a <strong>Refresh™</strong> (to maintain your baseline) or <strong>Reset™</strong> (to restore your shape). You approve before execution.</p>
+                <p style="margin-bottom: 8px;"><strong>03. Assess & Approve:</strong> The SPUR Specialist assesses and recommends either a <strong>Refresh™</strong> or <strong>Reset™</strong>. You approve before execution.</p>
                 <p style="margin-bottom: 0;"><strong>04. First Visit Guarantee:</strong> Full refund if not completely ready after your first visit.</p>
             </div>
-            <button class="modal-capsule-btn" onclick="closeModals()" data-en="GOT IT" data-fr="COMPRIS">GOT IT</button>
+            <button class="modal-capsule-btn" onclick="closeModals()">GOT IT</button>
         </div>
     </div>
 
     <!-- READY NOW MODAL -->
     <div id="verifyModal" class="modal-overlay">
         <div class="modal-card">
-            <h3 class="dynamic-header" data-en="Get Ready Now" data-fr="Préparez-vous Maintenant">Get Ready Now</h3>
-            <p class="dynamic-desc" data-en="Enter your details. We will coordinate your match." data-fr="Entrez vos coordonnées. Nous coordonnerons votre match.">
-                Enter your details. We will coordinate your match.
-            </p>
+            <h3 class="dynamic-header">Get Ready Now</h3>
+            <p class="dynamic-desc">Enter your details. We will coordinate your match.</p>
+            
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleSubmit(event, 'now')">
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="hidden" name="dispatch_channel" value="Priority Ready">
+                <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Fastest Available">
+
                 <select class="modal-input" name="service_context">
                     <option value="" disabled selected data-en="What's the occasion? (Optional)" data-fr="Quelle est l'occasion ? (Optionnel)">What's the occasion? (Optional)</option>
-                    <option value="Just for Me" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — No special occasion needed" data-fr="JUSTE POUR MOI™ — Aucun événement spécial requis">JUST FOR YOU™ — No special occasion needed</option>
+                    <option value="Just for You" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — The Occasion is Me" data-fr="JUSTE POUR VOUS™ — L'occasion, c'est moi">JUST FOR YOU™ — The Occasion is Me</option>
                     <option value="Professional" class="opt-gold" style="color: var(--gold);" data-en="PROFESSIONAL — Meeting · Interview · Presentation" data-fr="PROFESSIONNEL — Réunion · Entretien · Présentation">PROFESSIONAL — Meeting · Interview · Presentation</option>
                     <option value="Social" class="opt-gold" style="color: var(--gold);" data-en="SOCIAL — Date · Wedding · Night Out · Event" data-fr="SOCIAL — Rencontre · Mariage · Sortie · Événement">SOCIAL — Date · Wedding · Night Out · Event</option>
                     <option value="Life" class="opt-gold" style="color: var(--gold);" data-en="LIFE — Travel · Celebration · Personal Milestone" data-fr="VIE — Voyage · Célébration · Étape personnelle">LIFE — Travel · Celebration · Personal Milestone</option>
@@ -588,27 +599,27 @@
                     <input type="tel" class="modal-input" name="client_phone" id="phoneInputNow" placeholder="10 Digit Mobile" pattern="[0-9]{10}">
                 </div>
 
-                <button type="submit" class="modal-capsule-btn" id="nowSubmitBtn" data-en="SEND REQUEST" data-fr="ENVOYER LA DEMANDE">SEND REQUEST</button>
+                <button type="submit" class="modal-capsule-btn" id="nowSubmitBtn">SEND REQUEST</button>
             </form>
-            <button class="modal-close" onclick="closeModals()" data-en="CANCEL" data-fr="ANNULER">CANCEL</button>
+            <button class="modal-close" onclick="closeModals()">CANCEL</button>
             <br>
-            <button type="button" class="reset-user-link" id="resetUserBtn" onclick="resetUser()" data-en="Not you? Reset details" data-fr="Pas vous ? Réinitialiser">Not you? Reset details</button>
+            <button type="button" class="reset-user-link" id="resetUserBtn" onclick="resetUser()">Not you? Reset details</button>
         </div>
     </div>
 
     <!-- READY LATER MODAL -->
     <div id="laterModal" class="modal-overlay">
         <div class="modal-card">
-            <h3 class="dynamic-header" data-en="Plan Ahead" data-fr="Planifier à L'avance">Plan Ahead</h3>
-            <p class="dynamic-desc" data-en="Commit to a scheduled visit. We'll coordinate availability." data-fr="Engagez-vous pour une visite planifiée.">
-                Commit to a scheduled visit. We'll coordinate availability.
-            </p>
+            <h3 class="dynamic-header">Plan Ahead</h3>
+            <p class="dynamic-desc">Commit to a scheduled visit. We'll coordinate availability.</p>
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleSubmit(event, 'later')">
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="hidden" name="dispatch_channel" value="Scheduled Request">
+                <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Fastest Available">
+                
                 <select class="modal-input" name="service_context">
                     <option value="" disabled selected data-en="What's the occasion? (Optional)" data-fr="Quelle est l'occasion ? (Optionnel)">What's the occasion? (Optional)</option>
-                    <option value="Just for Me" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — No special occasion needed" data-fr="JUSTE POUR MOI™ — Aucun événement spécial requis">JUST FOR YOU™ — No special occasion needed</option>
+                    <option value="Just for You" class="opt-silver" style="color: var(--silver);" data-en="JUST FOR YOU™ — The Occasion is Me" data-fr="JUSTE POUR VOUS™ — L'occasion, c'est moi">JUST FOR YOU™ — The Occasion is Me</option>
                     <option value="Professional" class="opt-gold" style="color: var(--gold);" data-en="PROFESSIONAL — Meeting · Interview · Presentation" data-fr="PROFESSIONNEL — Réunion · Entretien · Présentation">PROFESSIONAL — Meeting · Interview · Presentation</option>
                     <option value="Social" class="opt-gold" style="color: var(--gold);" data-en="SOCIAL — Date · Wedding · Night Out · Event" data-fr="SOCIAL — Rencontre · Mariage · Sortie · Événement">SOCIAL — Date · Wedding · Night Out · Event</option>
                     <option value="Life" class="opt-gold" style="color: var(--gold);" data-en="LIFE — Travel · Celebration · Personal Milestone" data-fr="VIE — Voyage · Célébration · Étape personnelle">LIFE — Travel · Celebration · Personal Milestone</option>
@@ -623,33 +634,41 @@
                 <select class="modal-input" name="requested_time" required>
                     <option value="" disabled selected>Select Preferred Time</option>
                     <option value="9:00 AM">9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
                     <option value="12:00 PM">12:00 PM</option>
+                    <option value="1:00 PM">1:00 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
                     <option value="3:00 PM">3:00 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
                     <option value="6:00 PM">6:00 PM</option>
+                    <option value="7:00 PM">7:00 PM</option>
+                    <option value="8:00 PM">8:00 PM</option>
                 </select>
-                <button type="submit" class="modal-capsule-btn" data-en="REQUEST SCHEDULED COMMITMENT" data-fr="DEMANDER UNE VISITE PLANIFIÉE">REQUEST SCHEDULED COMMITMENT</button>
+                <button type="submit" class="modal-capsule-btn">REQUEST SCHEDULED COMMITMENT</button>
             </form>
-            <button class="modal-close" onclick="closeModals()" data-en="CANCEL" data-fr="ANNULER">CANCEL</button>
+            <button class="modal-close" onclick="closeModals()">CANCEL</button>
+            <br>
+            <button type="button" class="reset-user-link" id="resetUserBtnLater" onclick="resetUser()" style="display:none;">Not you? Reset details</button>
         </div>
     </div>
 
     <!-- CODE MODAL -->
     <div id="codeModal" class="modal-overlay">
         <div class="modal-card">
-            <h3 data-en="Enter SPURTAN Code" data-fr="Entrez le code SPURTAN">Enter SPURTAN Code</h3>
-            <p data-en="Please enter your unique membership code." data-fr="Veuillez entrer votre code d'adhésion unique.">Please enter your unique membership code.</p>
+            <h3>Enter SPURTAN Code</h3>
+            <p>Please enter your unique membership code.</p>
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleCodeSubmit(event)">
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="text" class="modal-input" name="spurtan_code" placeholder="e.g., SPURTAN" id="spurInput" required>
-                <button type="submit" class="modal-capsule-btn" data-en="APPLY" data-fr="APPLIQUER">APPLY</button>
+                <button type="submit" class="modal-circle-btn">APPLY</button>
             </form>
             <div class="code-modal-bridge">
-                <span data-en="Don't have a code yet?" data-fr="Vous n'avez pas encore de code ?">Don't have a code yet?</span><br>
-                <button type="button" onclick="switchModal('codeModal', 'spurtanModal')" data-en="Request Founding Spurtan Access →" data-fr="Demander l'accès Spurtan Fondateur →">
-                    Request Founding Spurtan Access →
-                </button>
+                <span>Don't have a code yet?</span><br>
+                <button type="button" onclick="switchModal('codeModal', 'spurtanModal')">Request Founding Spurtan Access →</button>
             </div>
-            <button class="modal-close" onclick="closeModals()" data-en="CANCEL" data-fr="ANNULER">CANCEL</button>
+            <button class="modal-close" onclick="closeModals()">CANCEL</button>
         </div>
     </div>
 
@@ -706,7 +725,7 @@
                 Your concierge is coordinating with our network.<br>You pay directly at the studio.
             </div>
             <a href="#" id="whatsappAutoBtn" class="receipt-action-btn" target="_blank">💬 CONFIRM VIA WHATSAPP (READY)</a>
-            <a href="https://wa.me/14387251010" class="cancel-link" target="_blank">Need to modify or cancel? Message Concierge.</a>
+            <a href="#" class="cancel-link" onclick="location.reload(); return false;">Need to modify or cancel? Message Concierge.</a>
         </div>
     </div>
 
@@ -720,16 +739,56 @@
             yul: { enBadge: "Montreal • Plateau • Live", frBadge: "Montréal • Le Plateau • En Direct", areaName: "Le Plateau, Montréal" }
         };
 
+        const SUPABASE_URL = 'https://quqcgjkbvajcltwuoqvz.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_h-5S_3VCTLKsN8iVUc_LxQ_T7rn1HlJ';
+        const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+        async function checkReturningUserRealtime() {
+            if (!supabaseClient) return;
+            const savedPhone = localStorage.getItem('spur_user_phone');
+            if (!savedPhone) return;
+            try {
+                const { data } = await supabaseClient
+                    .from('clients')
+                    .select('name, last_specialist')
+                    .eq('phone', savedPhone)
+                    .single();
+
+                if (data) {
+                    if (data.name) localStorage.setItem('spur_user_name', data.name);
+                    if (data.last_specialist) localStorage.setItem('last_specialist', data.last_specialist);
+                }
+            } catch (err) {
+                console.log("Supabase sync fallback active");
+            }
+        }
+
+        async function syncClientToSupabase(name, phone, specialist) {
+            if (!supabaseClient) return;
+            try {
+                await supabaseClient
+                    .from('clients')
+                    .upsert({ 
+                        phone: phone, 
+                        name: name, 
+                        last_specialist: specialist 
+                    }, { onConflict: 'phone' });
+            } catch (err) {
+                console.error("Supabase write error:", err);
+            }
+        }
+
         function alertCity(cityCode) {
             if (cityCode === 'yyz') {
-                document.getElementById('spurtanNodeSelect').value = "Financial District, Toronto";
-                openModal('spurtanModal');
+                const nodeSelect = document.getElementById('spurtanNodeSelect');
+                if (nodeSelect) nodeSelect.value = "Financial District, Toronto";
+                safeOpenModal('spurtanModal');
             }
         }
 
         function switchModal(closeId, openId) {
             document.getElementById(closeId).style.display = 'none';
-            openModal(openId);
+            safeOpenModal(openId);
         }
 
         function setCity(city) {
@@ -752,38 +811,40 @@
         function switchLanguage(lang) {
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
-            
+            document.querySelectorAll('[data-en]').forEach(el => {
+                if (el.id === 'brandPhilosophyText' && localStorage.getItem('spur_user_name')) return;
+                el.innerHTML = lang === 'fr' && el.hasAttribute('data-fr') ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+            });
             const savedName = localStorage.getItem('spur_user_name');
-            const dynamicSubtitle = document.getElementById('dynamicHeroSubtitle');
-            
-            if (savedName && dynamicSubtitle) {
-                dynamicSubtitle.innerHTML = lang === 'fr' ? "Bon retour, " + savedName.split(' ')[0] + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + savedName.split(' ')[0] + ". We're ready when you are.";
-            } else if (dynamicSubtitle) {
-                dynamicSubtitle.innerHTML = lang === 'fr' ? dynamicSubtitle.getAttribute('data-fr') : dynamicSubtitle.getAttribute('data-en');
+            if (savedName) {
+                const sub = document.getElementById('dynamicHeroSubtitle');
+                if (sub) sub.innerHTML = lang === 'fr' ? "Bon retour, " + savedName.split(' ')[0] + "." : "Welcome back, " + savedName.split(' ')[0] + ".";
             }
-            
             localStorage.setItem('spur_lang', lang);
             updateBadgeText();
         }
 
-        function openModal(id) {
+        function safeOpenModal(id) {
             const modal = document.getElementById(id);
+            if (!modal) return;
             if (id === 'verifyModal' || id === 'laterModal') {
                 const savedName = localStorage.getItem('spur_user_name');
                 const savedPhone = localStorage.getItem('spur_user_phone');
                 const wrapper = id === 'verifyModal' ? document.getElementById('inputFieldsWrapper') : document.getElementById('inputFieldsWrapperLater');
-                const resetBtn = document.getElementById('resetUserBtn');
+                const resetBtn = id === 'verifyModal' ? document.getElementById('resetUserBtn') : document.getElementById('resetUserBtnLater');
                 
                 if (savedName && savedPhone) {
-                    wrapper.style.display = 'none';
-                    wrapper.querySelectorAll('input').forEach(i => i.required = false);
+                    if(wrapper) wrapper.style.display = 'none';
+                    if(wrapper) wrapper.querySelectorAll('input').forEach(i => i.required = false);
                     if(resetBtn) resetBtn.style.display = 'block';
-                    modal.querySelector('.dynamic-header').innerText = "Welcome back, " + savedName.split(' ')[0];
+                    const header = modal.querySelector('.dynamic-header');
+                    if(header) header.innerText = "Welcome back, " + savedName.split(' ')[0];
                 } else {
-                    wrapper.style.display = 'block';
+                    if(wrapper) wrapper.style.display = 'block';
                     if(resetBtn) resetBtn.style.display = 'none';
-                    wrapper.querySelectorAll('input').forEach(i => i.required = true);
-                    modal.querySelector('.dynamic-header').innerText = id === 'verifyModal' ? "Get Ready Now" : "Plan Ahead";
+                    if(wrapper) wrapper.querySelectorAll('input').forEach(i => i.required = true);
+                    const header = modal.querySelector('.dynamic-header');
+                    if(header) header.innerText = id === 'verifyModal' ? "Get Ready Now" : "Plan Ahead";
                 }
             }
             modal.style.display = 'flex';
@@ -792,9 +853,10 @@
         function resetUser() {
             localStorage.removeItem('spur_user_name');
             localStorage.removeItem('spur_user_phone');
+            localStorage.removeItem('last_specialist');
             alert("Profile reset. Please enter your details.");
             closeModals();
-            openModal('verifyModal');
+            safeOpenModal('verifyModal');
         }
 
         function closeModals() {
@@ -809,34 +871,16 @@
             
             localStorage.setItem('spur_user_name', name);
             localStorage.setItem('spur_user_phone', phone);
+            await syncClientToSupabase(name, phone, 'Fastest Available');
 
-            try { await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } }); } catch (e) {}
             alert("✓ Founding Spurtan Access confirmed! Your $39.99 rate is now active.");
             
-            // Update Pricing UI
             document.getElementById('displayPrice').innerText = "$39.99 CAD";
             document.getElementById('finalReceiptPrice').innerText = "$39.99";
             
-            // Update the Top VIP Pill to show Active Status
-            const vipRight = document.querySelector('.vip-pill-right');
-            if (vipRight) {
-                vipRight.innerText = "✓ RATE ACTIVE";
-                vipRight.style.color = "var(--text-main)";
-            }
-            
-            // Update the small link under the price
-            const codeLink = document.getElementById('codeLinkText');
-            if (codeLink) {
-                codeLink.innerText = "✓ FOUNDING RATE ACTIVE";
-                codeLink.style.color = "var(--text-main)";
-                codeLink.style.pointerEvents = "none";
-                codeLink.style.textDecoration = "none";
-            }
-
-            // Update Hero Text to recognize them instantly
-            const dynamicSubtitle = document.getElementById('dynamicHeroSubtitle');
-            if (dynamicSubtitle) {
-                dynamicSubtitle.innerHTML = localStorage.getItem('spur_lang') === 'fr' ? "Bon retour, " + name.split(' ')[0] + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + name.split(' ')[0] + ". We're ready when you are.";
+            const sub = document.getElementById('dynamicHeroSubtitle');
+            if (sub) {
+                sub.innerHTML = localStorage.getItem('spur_lang') === 'fr' ? "Bon retour, " + name.split(' ')[0] + "." : "Welcome back, " + name.split(' ')[0] + ".";
             }
 
             closeModals(); form.reset();
@@ -861,20 +905,30 @@
             let name = localStorage.getItem('spur_user_name');
             let phone = localStorage.getItem('spur_user_phone');
 
-            if (!name || !phone) {
-                name = form.querySelector('input[name="client_name"]')?.value || 'Valued Client';
-                phone = form.querySelector('input[name="client_phone"]')?.value || 'Saved Profile';
-                if (phone && phone.length >= 10) {
-                    localStorage.setItem('spur_user_name', name);
-                    localStorage.setItem('spur_user_phone', phone);
-                }
+            const nameInput = form.querySelector('input[name="client_name"]');
+            const phoneInput = form.querySelector('input[name="client_phone"]');
+
+            if (nameInput && nameInput.value.trim()) {
+                name = nameInput.value.trim();
+                localStorage.setItem('spur_user_name', name);
+            }
+            if (phoneInput && phoneInput.value.trim().length >= 10) {
+                phone = phoneInput.value.trim();
+                localStorage.setItem('spur_user_phone', phone);
             }
 
-            const city = form.querySelector('.formCityField').value;
-            const context = form.querySelector('select[name="service_context"]').value || 'Standard Readiness';
+            if (!name) name = 'Valued Client';
+            if (!phone) phone = '6040000000';
 
-            // Automatically prepare WhatsApp message string
-            const waMessage = `Hello SPUR — I would like to request a visit.\n\nType: ${type.toUpperCase()}\nCity: ${city}\nName: ${name}\nMobile: ${phone}\nContext: ${context}\n\nPlease coordinate availability.`;
+            const city = form.querySelector('.formCityField').value;
+            const contextRaw = form.querySelector('select[name="service_context"]').value;
+            const context = contextRaw ? contextRaw.split('—')[0].trim() : 'Standard Readiness';
+            const specialist = form.querySelector('input[name="requested_specialist"]')?.value || 'Fastest Available';
+
+            localStorage.setItem('last_specialist', specialist);
+            await syncClientToSupabase(name, phone, specialist);
+
+            const waMessage = `Hello SPUR — I would like to request a visit.\n\nType: ${type.toUpperCase()}\nCity: ${city}\nName: ${name}\nMobile: ${phone}\nContext: ${context}\nSpecialist: ${specialist}\n\nPlease coordinate verified availability.`;
             const encodedWaUrl = `https://wa.me/${SPUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
             document.getElementById('whatsappAutoBtn').href = encodedWaUrl;
 
@@ -886,16 +940,16 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             setCity(localStorage.getItem('spur_active_city') || 'yvr');
             switchLanguage(localStorage.getItem('spur_lang') || 'en');
+            await checkReturningUserRealtime();
             
-            // Check if user is already saved on initial load to update subtitle
             const savedName = localStorage.getItem('spur_user_name');
-            const dynamicSubtitle = document.getElementById('dynamicHeroSubtitle');
-            if (savedName && dynamicSubtitle) {
+            const sub = document.getElementById('dynamicHeroSubtitle');
+            if (savedName && sub) {
                 const lang = localStorage.getItem('spur_lang') || 'en';
-                dynamicSubtitle.innerHTML = lang === 'fr' ? "Bon retour, " + savedName.split(' ')[0] + ". Nous sommes prêts quand vous l'êtes." : "Welcome back, " + savedName.split(' ')[0] + ". We're ready when you are.";
+                sub.innerHTML = lang === 'fr' ? "Bon retour, " + savedName.split(' ')[0] + "." : "Welcome back, " + savedName.split(' ')[0] + ".";
             }
         });
     </script>
