@@ -63,7 +63,6 @@
         .modal-close { background: none; border: none; color: var(--text-muted); font-size: 12px; cursor: pointer; margin-top: 15px; display: inline-block; }
         .reset-user-link { display: none; background: none; border: none; color: var(--gold); font-size: 10px; font-weight: 700; text-transform: uppercase; cursor: pointer; text-decoration: underline; margin: 15px auto 5px auto; width: 100%; }
         .perks-mini-box { background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
-        .perks-mini-box strong { color: var(--text-main); font-weight: 600; }
         .detailed-steps { text-align: left; margin: 24px 0; }
         .detailed-step-row { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
         .detailed-step-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -90,11 +89,13 @@
     </style>
 </head>
 <body>
+
     <div class="main-content" id="mainAppContainer">
         <div class="vip-top-pill" onclick="safeOpenModal('spurtanModal')">
             <div class="vip-pill-left"><span class="vip-star">✦</span><span data-en="Founding Spurtan Access" data-fr="Accès Spurtan Fondateur">Founding Spurtan Access</span></div>
             <div class="vip-pill-right" data-en="Own the Hour Before →" data-fr="Maîtrisez votre heure →">Own the Hour Before →</div>
         </div>
+
         <div class="header-container">
             <div class="logo-area" style="display: flex; flex-direction: column; align-items: flex-start;">
                 <div style="display: flex; align-items: flex-start; line-height: 1; margin-bottom: 6px;"><span style="font-size: 32px; font-weight: 800; letter-spacing: 6px; color: #ffffff;">SPU</span><span style="font-size: 32px; font-weight: 800; letter-spacing: 2px; color: var(--gold);">R</span><span style="font-size: 14px; color: var(--gold); margin-top: 0px; margin-left: 4px;">✦</span></div>
@@ -108,22 +109,27 @@
                 </div>
             </div>
         </div>
+
         <div class="hero-section">
             <div class="hero-title" data-en="You don't need to know what will make you look better." data-fr="Vous n'avez pas besoin de savoir ce qui vous mettra en valeur.">You don't need to know what will make you look better.</div>
             <div class="hero-title-gold" id="dynamicHeroSubtitle" data-en="We don't look at menus. We look at you." data-fr="Nous ne regardons pas de menus. Nous vous regardons.">We don't look at menus. We look at you.</div>
         </div>
+
         <div class="cta-container">
             <div class="inline-pricing"><span id="displayPrice">$49.99 CAD</span> <span data-en="Priority Flat Rate" data-fr="Tarif Fixe Prioritaire">Priority Flat Rate</span><br><button type="button" onclick="safeOpenModal('codeModal')" style="background:none; border:none; color:var(--text-muted); font-size:10px; font-weight:700; text-decoration:underline; cursor:pointer; margin-top:8px;" data-en="HAVE SPURTAN CODE?" data-fr="AVEZ-UN CODE SPURTAN ?">HAVE SPURTAN CODE?</button></div>
+            
             <div>
                 <button class="ready-circle-btn" onclick="openIntercept('now')"><span class="ready-line-1">READY</span><span class="ready-line-2">NOW™</span></button>
                 <div class="cta-footer-note" data-en="A SPUR Specialist assesses what you need.<br>You just show up." data-fr="Un spécialiste SPUR évalue ce dont vous avez besoin.<br>Vous vous présentez, tout simplement.">A SPUR Specialist assesses what you need.<br>You just show up.</div>
             </div>
+
             <button class="ready-later-btn" onclick="openIntercept('later')">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                 <span>READY LATER™</span>
             </button>
             <div class="active-hours-note" data-en="Active Concierge Hours: 9:00 AM – 8:00 PM (PT)" data-fr="Heures de conciergerie : 9h00 – 20h00 (HP)">Active Concierge Hours: 9:00 AM – 8:00 PM (PT)</div>
         </div>
+        
         <div class="site-footer">
             <span data-en="© 2026 SPUR. All rights reserved." data-fr="© 2026 SPUR. Tous droits réservés.">© 2026 SPUR. All rights reserved.</span><br><br>
             <a onclick="safeOpenModal('howItWorksModal')" data-en="How It Works" data-fr="Comment ça marche">How It Works</a> | 
@@ -196,17 +202,20 @@
         <div class="modal-card">
             <h3 class="dynamic-header" data-en="Get Ready Now" data-fr="Préparez-vous Maintenant">Get Ready Now</h3>
             <p class="dynamic-desc" data-en="Enter your details. We will coordinate your match." data-fr="Entrez vos coordonnées. Nous coordonnerons votre match.">Enter your details. We will coordinate your match.</p>
+            
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleSubmit(event, 'now')">
                 <input type="text" name="_gotcha" style="display:none">
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="hidden" name="dispatch_channel" value="Priority Ready">
                 <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Priority Match">
+                
                 <div id="inputFieldsWrapper">
                     <div class="contact-fields">
                         <input type="text" class="modal-input" name="client_name" id="nameInputNow" placeholder="First Name" data-en-placeholder="First Name" data-fr-placeholder="Prénom" required>
                         <input type="tel" class="modal-input" name="client_phone" id="phoneInputNow" placeholder="10 Digit Mobile" data-en-placeholder="10 Digit Mobile" data-fr-placeholder="Mobile à 10 chiffres" pattern="[0-9]{10}" required>
                     </div>
                 </div>
+
                 <button type="submit" class="modal-capsule-btn" id="nowSubmitBtn" data-en="SEND REQUEST" data-fr="ENVOYER LA DEMANDE">SEND REQUEST</button>
             </form>
             <button class="modal-close" onclick="closeModals()" data-en="CANCEL" data-fr="ANNULER">CANCEL</button><br>
@@ -219,17 +228,20 @@
         <div class="modal-card">
             <h3 class="dynamic-header" data-en="Plan Ahead" data-fr="Planifier à L'avance">Plan Ahead</h3>
             <p class="dynamic-desc" data-en="Commit to a scheduled visit. We'll coordinate availability." data-fr="Engagez-vous pour une visite planifiée.">Commit to a scheduled visit. We'll coordinate availability.</p>
+            
             <form action="https://formspree.io/f/mjykllwj" method="POST" onsubmit="handleSubmit(event, 'later')">
                 <input type="text" name="_gotcha" style="display:none">
                 <input type="hidden" name="city_location" class="formCityField" value="Yaletown, Vancouver">
                 <input type="hidden" name="dispatch_channel" value="Scheduled Request">
                 <input type="hidden" name="requested_specialist" class="specialistHiddenField" value="Priority Match">
+                
                 <div id="inputFieldsWrapperLater">
                     <div class="contact-fields">
                         <input type="text" class="modal-input" name="client_name" placeholder="First Name" data-en-placeholder="First Name" data-fr-placeholder="Prénom" required>
                         <input type="tel" class="modal-input" name="client_phone" placeholder="10 Digit Mobile" data-en-placeholder="10 Digit Mobile" data-fr-placeholder="Mobile à 10 chiffres" pattern="[0-9]{10}" required>
                     </div>
                 </div>
+
                 <input type="date" class="modal-input" name="requested_date" id="laterDateInput" required>
                 <select class="modal-input" name="requested_time" required>
                     <option value="" disabled selected data-en="Select Preferred Time" data-fr="Sélectionnez l'heure">Select Preferred Time</option>
@@ -268,7 +280,9 @@
     <div id="spurtanModal" class="modal-overlay">
         <div class="modal-card">
             <h3 data-en="Founding Spurtan Access" data-fr="Accès Spurtan Fondateur">Founding Spurtan Access</h3>
-            <div id="spotsRemainingBadge" style="background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); padding: 8px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; display: inline-block;">Calculating spots remaining...</div>
+            <div id="spotsRemainingBadge" style="background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); padding: 8px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 15px; display: inline-block;">
+                Calculating spots remaining...
+            </div>
             <p data-en="Own the hour before. Join the private pilot and lock in preferred rates." data-fr="Maîtrisez votre heure. Rejoignez le pilote privé et bloquez les tarifs préférentiels.">Own the hour before. Join the private pilot and lock in preferred rates.</p>
             <div class="perks-mini-box" style="text-align: left;">
                 • <strong data-en="$39.99 CAD All-In" data-fr="39,99 $ CAD Tout Inclus">$39.99 CAD All-In</strong> <span data-en="for your first visit (Standard: $49.99)." data-fr="pour votre 1ère visite (Standard : 49,99 $).">for your first visit (Standard: $49.99).</span><br>
@@ -351,6 +365,7 @@
             bookingsData.forEach(req => {
                 const dateObj = new Date(req.date);
                 const formattedDate = dateObj.toLocaleDateString(lang === 'fr' ? 'fr-CA' : 'en-CA', { month: 'short', day: 'numeric', year: 'numeric' });
+                
                 html += `
                     <div class="perks-mini-box" style="margin-bottom: 10px;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
@@ -507,22 +522,43 @@
             try {
                 const modal = document.getElementById(id);
                 if (!modal) return;
+                
                 if (id === 'verifyModal' || id === 'laterModal') {
                     const savedName = localStorage.getItem('spur_user_name');
                     const savedPhone = localStorage.getItem('spur_user_phone');
                     const contactFields = modal.querySelector('.contact-fields');
                     const resetBtn = id === 'verifyModal' ? document.getElementById('resetUserBtn') : document.getElementById('resetUserBtnLater');
+                    const desc = modal.querySelector('.dynamic-desc');
+                    const submitBtn = modal.querySelector('button[type="submit"]');
                     const lang = localStorage.getItem('spur_lang') || 'en';
+                    
                     if (savedName && savedPhone) {
                         if(contactFields) { contactFields.style.display = 'none'; contactFields.querySelectorAll('input').forEach(i => i.required = false); }
                         if(resetBtn) resetBtn.style.display = 'block';
                         const header = modal.querySelector('.dynamic-header');
                         if(header) header.textContent = lang === 'fr' ? "Bon retour, " + savedName.split(' ')[0] : "Welcome back, " + savedName.split(' ')[0];
+                        
+                        if(desc) desc.textContent = lang === 'fr' ? "Votre profil est sécurisé. Confirmez ci-dessous pour coordonner votre match." : "Your profile is secured. Confirm below to coordinate your match.";
+                        
+                        if(submitBtn) {
+                            if (id === 'verifyModal') submitBtn.textContent = lang === 'fr' ? "CONFIRMER LA DEMANDE" : "CONFIRM REQUEST";
+                            else submitBtn.textContent = lang === 'fr' ? "CONFIRMER LA VISITE PLANIFIÉE" : "CONFIRM SCHEDULED COMMITMENT";
+                        }
                     } else {
                         if(contactFields) { contactFields.style.display = 'block'; contactFields.querySelectorAll('input').forEach(i => i.required = true); }
                         if(resetBtn) resetBtn.style.display = 'none';
                         const header = modal.querySelector('.dynamic-header');
                         if(header) header.textContent = id === 'verifyModal' ? (lang === 'fr' ? "Préparez-vous Maintenant" : "Get Ready Now") : (lang === 'fr' ? "Planifier à L'avance" : "Plan Ahead");
+                        
+                        if(desc) {
+                            if (id === 'verifyModal') desc.textContent = lang === 'fr' ? "Entrez vos coordonnées. Nous coordonnerons votre match." : "Enter your details. We will coordinate your match.";
+                            else desc.textContent = lang === 'fr' ? "Engagez-vous pour une visite planifiée. Nous coordonnerons la disponibilité." : "Commit to a scheduled visit. We'll coordinate availability.";
+                        }
+                        
+                        if(submitBtn) {
+                            if (id === 'verifyModal') submitBtn.textContent = lang === 'fr' ? "ENVOYER LA DEMANDE" : "SEND REQUEST";
+                            else submitBtn.textContent = lang === 'fr' ? "DEMANDER UNE VISITE PLANIFIÉE" : "REQUEST SCHEDULED COMMITMENT";
+                        }
                     }
                 }
                 modal.style.display = 'flex';
@@ -534,12 +570,16 @@
             localStorage.removeItem('spur_user_phone'); 
             localStorage.removeItem('last_specialist');
             localStorage.removeItem('spur_applied_code'); 
+            localStorage.removeItem('spur_history'); 
             
-            // SECURITY: Deliberately skipping spur_discount_used to prevent loophole.
             const priceDisplay = document.getElementById('displayPrice');
             if(priceDisplay) priceDisplay.textContent = "$49.99 CAD";
-            alert("Profile reset. Please enter your details.");
-            closeModals(); safeOpenModal('verifyModal');
+            
+            if (document.getElementById('laterModal').style.display === 'flex') {
+                safeOpenModal('laterModal');
+            } else {
+                safeOpenModal('verifyModal');
+            }
         }
 
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(el => el.style.display = 'none'); }
@@ -548,7 +588,6 @@
             event.preventDefault();
             const lang = localStorage.getItem('spur_lang') || 'en';
             
-            // LOOPHOLE FIX 1: Front-end memory lock
             if (localStorage.getItem('spur_discount_used') === 'true') {
                 alert(lang === 'fr' ? "Le tarif fondateur est valable uniquement pour votre première visite." : "The Founding Spurtan rate is valid for your first visit only.");
                 return;
@@ -558,7 +597,6 @@
             const name = form.querySelector('input[name="client_name"]').value;
             const phone = form.querySelector('input[name="client_phone"]').value;
 
-            // LOOPHOLE FIX 2: Backend Supabase check
             if (supabaseClient) {
                 try {
                     const { count } = await supabaseClient.from('requests').select('*', { count: 'exact', head: true }).eq('phone', phone);
@@ -637,14 +675,12 @@
             const city = form.querySelector('.formCityField').value;
             const specialist = form.querySelector('input[name="requested_specialist"]')?.value || 'Priority Match';
             
-            // ZERO MENU: Hardcoded Standard Refresh Occasion
+            // Hardcoded configuration for standard zero-menu flow
             const occasion = "Standard Refresh";
-            
             let finalPrice = 49.99;
             let serviceRequested = "SPUR Refresh";
             let hasCode = localStorage.getItem('spur_applied_code') !== null;
 
-            // Final Loophole Net at Checkout
             if (hasCode && supabaseClient) {
                 try {
                     const { count } = await supabaseClient.from('requests').select('*', { count: 'exact', head: true }).eq('phone', phone);
@@ -659,7 +695,6 @@
             document.getElementById('finalReceiptPrice').textContent = `$${finalPrice.toFixed(2)}`;
             localStorage.setItem('last_specialist', specialist);
             
-            // LOCAL STORAGE SAVE FOR BOOKINGS DASHBOARD
             const newBooking = { date: new Date().toISOString(), type: type, service: serviceRequested, city: city };
             let localHistory = JSON.parse(localStorage.getItem('spur_history') || '[]');
             localHistory.unshift(newBooking);
@@ -670,7 +705,6 @@
                 if (supabaseClient) await supabaseClient.from('requests').insert({ phone, city, type, specialist, occasion, service: serviceRequested, price: finalPrice });
             } catch (err) {}
 
-            // Lock the discount code out forever on this device
             localStorage.setItem('spur_discount_used', 'true'); 
             localStorage.removeItem('spur_applied_code');
 
