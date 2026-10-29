@@ -11,6 +11,7 @@
 <body>
 <div class="main-content" id="mainAppContainer">
     
+    <!-- PURE EDGE - No Promotional Pill needed here -->
     <div class="vip-top-pill">
         <div class="vip-pill-left"><span class="vip-star">✦</span><span data-en="SPUR Edge™ | 15-Min Refinement" data-fr="SPUR Edge™ | Raffinement 15 Min">SPUR Edge™ | 15-Min Refinement</span></div>
         <div class="vip-pill-right" data-en="Keep It Sharp" data-fr="Restez Net">Keep It Sharp</div>
@@ -42,6 +43,7 @@
             <div class="cta-footer-note" data-en="Perimeter line-up, neck taper & beard alignment.<br>You just show up." data-fr="Contours, nuque et alignement de la barbe.<br>Vous vous présentez, tout simplement.">Perimeter line-up, neck taper & beard alignment.<br>You just show up.</div>
         </div>
         
+        <!-- Ready Later is present because this is SpurReady (Scheduling Active) -->
         <button class="ready-later-btn" onclick="openIntercept('later')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span>READY LATER™</span>
@@ -106,7 +108,7 @@
     </div>
 </div>
 
-<!-- READY NOW MODAL (PURE ZERO MENU) -->
+<!-- READY NOW MODAL (PURE EDGE, ZERO-MENU) -->
 <div id="verifyModal" class="modal-overlay">
     <div class="modal-card">
         <h3 class="dynamic-header" data-en="Get Ready Now" data-fr="Préparez-vous Maintenant">Get Ready Now</h3>
@@ -121,7 +123,7 @@
     </div>
 </div>
 
-<!-- READY LATER MODAL (PURE ZERO MENU) -->
+<!-- READY LATER MODAL (PURE EDGE, ZERO-MENU) -->
 <div id="laterModal" class="modal-overlay">
     <div class="modal-card">
         <h3 class="dynamic-header" data-en="Plan Ahead" data-fr="Planifier à L'avance">Plan Ahead</h3>
@@ -159,6 +161,7 @@
         <a href="#" id="whatsappAutoBtn" class="receipt-action-btn" target="_blank"><span data-en="💬 CONFIRM VIA WHATSAPP (READY)" data-fr="💬 CONFIRMER VIA WHATSAPP (PRÊT)">💬 CONFIRM VIA WHATSAPP (READY)</span></a>
         <button onclick="returnToHome()" class="modal-capsule-btn-secondary" style="margin-top: 15px; border-color: transparent;" data-en="← BACK TO HOME" data-fr="← RETOUR À L'ACCUEIL">← BACK TO HOME</button>
         
+        <!-- CLICKABLE LUXURY CANCEL LINK -->
         <div style="margin-top: 15px; font-size: 11px; color: var(--text-muted);">
             <span data-en="Change of plans?" data-fr="Changement de programme ?">Change of plans?</span> 
             <a href="https://wa.me/14387251010?text=Hello%20SPUR%20%E2%80%94%20I%20need%20to%20modify%20my%20recent%20request." target="_blank" style="color: var(--text-main); text-decoration: underline; font-weight: 600;">
@@ -190,7 +193,8 @@ let currentInterceptType='now';
 function openIntercept(type){const lang=localStorage.getItem('spur_lang')||'en';
 // EDGE WAITLIST BLOCKER
 if(currentCity==='yul'||currentCity==='yyz'){alert(lang==='fr'?"Cette ville est actuellement sur liste d'attente. L'accès Fondateur est géré sur le site principal.":"This city is currently waitlisted. Founding Spurtan access is managed on the main site.");return;}
-if(type==='now'&&currentCity==='yvr'&&!isPTHours()){alert(lang==='fr'?"Le concierge est actuellement hors ligne. Veuillez utiliser Planifier à l'avance pour sécuriser une place pour demain.":"The concierge is currently offline. Please use Ready Later to secure a chair for tomorrow.");return;}
+// AUTO-SWITCH TO LATER
+if(type==='now'&&currentCity==='yvr'&&!isPTHours()){if(document.getElementById('laterModal')){alert(lang==='fr'?"Le concierge est actuellement hors ligne. Redirection pour planifier votre visite pour demain.":"The concierge is currently offline. Redirecting to schedule your visit for tomorrow.");type='later';}else{alert(lang==='fr'?"Le concierge est actuellement hors ligne. Veuillez revenir demain pour réserver votre place.":"The concierge is currently offline. Please check back tomorrow to secure a chair.");return;}}
 try{currentInterceptType=type;const savedSpecialist=localStorage.getItem('last_specialist');const savedName=localStorage.getItem('spur_user_name');if(savedName&&savedSpecialist&&savedSpecialist!=='Priority Match'&&savedSpecialist!=='undefined'){document.getElementById('recognizedSpecialistText').textContent=lang==='fr'?`Demander ${savedSpecialist} à nouveau ?`:`Request ${savedSpecialist} again?`;document.getElementById('interceptModal').style.display='flex';}else{safeOpenModal(type==='now'?'verifyModal':'laterModal');}}catch(err){safeOpenModal(type==='now'?'verifyModal':'laterModal');}}
 function confirmPreviousSpecialist(){const savedSpecialist=localStorage.getItem('last_specialist')||'Priority Match';document.querySelectorAll('.specialistHiddenField').forEach(el=>el.value=savedSpecialist);document.getElementById('interceptModal').style.display='none';safeOpenModal(currentInterceptType==='now'?'verifyModal':'laterModal');}
 function skipIntercept(){document.querySelectorAll('.specialistHiddenField').forEach(el=>el.value='Priority Match');document.getElementById('interceptModal').style.display='none';safeOpenModal(currentInterceptType==='now'?'verifyModal':'laterModal');}
