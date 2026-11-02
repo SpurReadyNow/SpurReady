@@ -56,7 +56,7 @@
             <div class="cta-footer-note" data-en="Perimeter line-up, neck taper & beard alignment.<br>You just show up." data-fr="Contours, nuque et alignement de la barbe.<br>Dites-nous où vous êtes. On s'occupe du reste.">Perimeter line-up, neck taper & beard alignment.<br>You just show up.</div>
         </div>
         
-        <!-- READY LATER BUTTON RESTORED FOR SPURREADY -->
+        <!-- READY LATER BUTTON RESTORED -->
         <button class="ready-later-btn" onclick="openIntercept('later')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
             <span>READY LATER™</span>
@@ -141,7 +141,7 @@
     </div>
 </div>
 
-<!-- READY NOW MODAL (ZERO OCCASIONS) -->
+<!-- READY NOW MODAL (EDGE ONLY, NO OCCASIONS) -->
 <div id="verifyModal" class="modal-overlay">
     <div class="modal-card">
         <h3 class="dynamic-header" data-en="Edge Priority Now" data-fr="Priorité Edge Maintenant">Edge Priority Now</h3>
@@ -154,7 +154,6 @@
                     <input type="tel" class="modal-input" name="client_phone" id="phoneInputNow" placeholder="10 Digit Mobile" data-en-placeholder="10 Digit Mobile" data-fr-placeholder="Mobile à 10 chiffres" pattern="[0-9]{10}" required>
                 </div>
             </div>
-            <!-- NO OCCASIONS DROPDOWN -->
             <button type="submit" class="modal-capsule-btn" id="nowSubmitBtn" data-en="SEND REQUEST" data-fr="ENVOYER LA DEMANDE">SEND REQUEST</button>
         </form>
         <button class="modal-close" onclick="closeModals()" data-en="CANCEL" data-fr="ANNULER">CANCEL</button><br>
@@ -162,7 +161,7 @@
     </div>
 </div>
 
-<!-- READY LATER MODAL (ZERO OCCASIONS) -->
+<!-- READY LATER MODAL (EDGE ONLY, NO OCCASIONS) -->
 <div id="laterModal" class="modal-overlay">
     <div class="modal-card">
         <h3 class="dynamic-header" data-en="Plan Ahead" data-fr="Planifier à l'avance">Plan Ahead</h3>
@@ -175,7 +174,6 @@
                     <input type="tel" class="modal-input" name="client_phone" placeholder="10 Digit Mobile" data-en-placeholder="10 Digit Mobile" data-fr-placeholder="Mobile à 10 chiffres" pattern="[0-9]{10}" required>
                 </div>
             </div>
-            <!-- NO OCCASIONS DROPDOWN -->
             <input type="date" class="modal-input" name="requested_date" id="laterDateInput" required>
             <select class="modal-input" name="requested_time" required>
                 <option value="" disabled selected data-en="Select Preferred Time" data-fr="Sélectionnez l'heure">Select Preferred Time</option>
@@ -257,9 +255,9 @@ function returnToHome(){document.getElementById('finalSuccessView').style.displa
 
 async function openHistoryModal(){safeOpenModal('historyModal');const historyContent=document.getElementById('historyContent');const lang=localStorage.getItem('spur_lang')||'en';let bookingsData=JSON.parse(localStorage.getItem('spur_history')||'[]');if(bookingsData.length===0){historyContent.innerHTML=`<div style="text-align:center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">${lang==='fr'?"Aucune réservation passée trouvée sur cet appareil.":"No past bookings found on this device."}</div>`;return;}let html='';bookingsData.forEach(req=>{const dateObj=new Date(req.date);const formattedDate=dateObj.toLocaleDateString(lang==='fr'?'fr-CA':'en-CA',{month:'short',day:'numeric',year:'numeric'});html+=`<div class="perks-mini-box" style="margin-bottom: 10px;"><div style="display: flex; justify-content: space-between; margin-bottom: 6px;"><strong style="color: var(--gold); font-size: 11px;">${formattedDate}</strong><span style="font-size: 10px; color: #2ecc71; font-weight: 700;">${(req.type||'now').toUpperCase()}</span></div><div style="font-size: 12px; color: var(--text-main); margin-bottom: 4px;">${req.service}</div><div style="font-size: 10px; color: var(--text-muted);">📍 ${req.city}</div></div>`;});historyContent.innerHTML=html;}
 
-async function checkReturningUserRealtime(){try{if(!supabaseClient)return;const savedPhone=localStorage.getItem('spur_user_phone');if(!savedPhone)return;const{data}=await supabaseClient.from('clients').select('name, last_specialist, spurtan_code').eq('phone',savedPhone).single();if(data){if(data.name)localStorage.setItem('spur_user_name',data.name);if(data.last_specialist)localStorage.setItem('last_specialist',data.last_specialist);}}catch(err){}}
-
+async function checkReturningUserRealtime(){try{if(!supabaseClient)return;const savedPhone=localStorage.getItem('spur_user_phone');if(!savedPhone)return;const{data}=await supabaseClient.from('clients').select('name, last_specialist').eq('phone',savedPhone).single();if(data){if(data.name)localStorage.setItem('spur_user_name',data.name);if(data.last_specialist)localStorage.setItem('last_specialist',data.last_specialist);}}catch(err){}}
 async function syncClientToSupabase(name,phone,specialist){try{if(!supabaseClient)return;const payload={phone:phone,name:name,last_specialist:specialist};await supabaseClient.from('clients').upsert(payload,{onConflict:'phone'});}catch(err){}}
+
 function switchModal(closeId,openId){document.getElementById(closeId).style.display='none';safeOpenModal(openId);}
 
 function setCity(city){
@@ -411,7 +409,22 @@ function safeOpenModal(id){
     }catch(e){document.getElementById(id).style.display='flex';}
 }
 
-function resetUser(){localStorage.removeItem('spur_user_name');localStorage.removeItem('spur_user_phone');localStorage.removeItem('last_specialist');localStorage.removeItem('spur_applied_code');localStorage.removeItem('spur_history');const priceDisplay=document.getElementById('displayPrice');if(priceDisplay)priceDisplay.textContent="$29.99 CAD";if(document.getElementById('laterModal')&&document.getElementById('laterModal').style.display==='flex'){safeOpenModal('laterModal');}else{safeOpenModal('verifyModal');}}
+function resetUser(){
+    localStorage.removeItem('spur_user_name');
+    localStorage.removeItem('spur_user_phone');
+    localStorage.removeItem('last_specialist');
+    localStorage.removeItem('spur_applied_code');
+    // Deliberately NOT removing spur_history so past receipts are preserved
+    
+    const priceDisplay=document.getElementById('displayPrice');
+    if(priceDisplay)priceDisplay.textContent="$29.99 CAD";
+    
+    if(document.getElementById('laterModal')&&document.getElementById('laterModal').style.display==='flex'){
+        safeOpenModal('laterModal');
+    }else{
+        safeOpenModal('verifyModal');
+    }
+}
 function closeModals(){document.querySelectorAll('.modal-overlay').forEach(el=>el.style.display='none');}
 
 async function handleWaitlistSubmit(event){
@@ -436,8 +449,9 @@ async function handleSubmit(event,type){
     const lang=localStorage.getItem('spur_lang')||'en';
     
     const lastSub=localStorage.getItem('spur_last_submit');
-    if(lastSub&&(Date.now()-parseInt(lastSub))<30*60*1000){
-        alert(lang==='fr'?"Demande déjà reçue. Veuillez patienter 30 minutes avant de réserver à nouveau.":"Request already received. Please wait 30 minutes before booking again.");
+    // Reduced lock from 30 mins to 2 mins for testing convenience
+    if(lastSub&&(Date.now()-parseInt(lastSub))<2*60*1000){
+        alert(lang==='fr'?"Demande déjà reçue. Veuillez patienter un instant avant de réserver à nouveau.":"Request already received. Please wait 2 minutes before booking again.");
         return;
     }
     
@@ -476,7 +490,12 @@ async function handleSubmit(event,type){
     
     localStorage.setItem('last_specialist',specialist);
     
-    const newBooking={date:new Date().toISOString(),type:type,service:serviceRequested,city:city};
+    let historyDate = new Date().toISOString();
+    if(type === 'later' && reqDate) {
+        historyDate = new Date(reqDate).toISOString();
+    }
+    
+    const newBooking={date:historyDate,type:type,service:serviceRequested,city:city};
     let localHistory=JSON.parse(localStorage.getItem('spur_history')||'[]');
     localHistory.unshift(newBooking);
     localStorage.setItem('spur_history',JSON.stringify(localHistory.slice(0,5)));
